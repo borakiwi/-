@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<head>
+  <title>WAYgame</title>
+  <link rel="stylesheet" href="/static/game/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+  {% block content %}
+  <talbe>
+  <h1>누구일까요?</h1>
+  {% for MyModel in selected_imgs %}
+  <div class='selected_img'>
+    <span class="image-caption">
+    <img src='/static{{ MyModel }}' class='image-wrapper'>
+    </span>
+    <form method="post" id="form{{ forloop.counter }}">
+    </talbe>
+      <br><br>
+      {% csrf_token %} 
+      <label for="img_name{{ forloop.counter }}">이름:</label>
+      <input type="text" name="img_name" id="img_name{{ forloop.counter }}" required>
+      <input type="submit" onclick="next(end/end.html)"value="제출">
+    </form>
+    
+  </div>
+  {% endfor %}
+<!--   <div>
+    <span id="button">
+      <form action="/main/startmain/" method="post">
+                  {% csrf_token %}
+                      <button>
+                          결과화면이동
+                      </button>
+  </div> -->
+
+  <form method="post" id="next-form" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="img_name" value="pass">
+    <input type="submit" id="next-submit">
+  </form>
+  <script>
+    const selected_imgs = document.querySelectorAll('.selected_img');
+    let idx = 0
+    selected_imgs[idx].style.display = 'block';
+
+    function show() {
+      selected_imgs[idx].style.display = 'none';
+      idx += 1;
+      selected_imgs[idx].style.display = 'block';
+    }
+
+    let time = setInterval(show, 5000);
+
+    function next() {
+      clearInterval(time);
+      show();
+      time = setInterval(show, 5000);
+    }
+
+  </script>
+  {% endblock %}
+  </body>
+</html> 
+dddd
